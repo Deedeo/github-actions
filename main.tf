@@ -10,16 +10,16 @@ terraform {
     }
   }
   required_version = ">= 1.1.0"
-
-terraform {
-  cloud {
-    organization = "Deebudapest"
+    backend "remote" {
+    # Update to your Terraform Cloud organization
+     organization = "Deebudapest"
 
     workspaces {
       name = "github-action-workspace"
     }
   }
-}
+
+
 }
 
 provider "aws" {
