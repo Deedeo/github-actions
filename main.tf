@@ -10,9 +10,9 @@ terraform {
     }
   }
   required_version = ">= 1.1.0"
-    backend "remote" {
+  backend "remote" {
     # Update to your Terraform Cloud organization
-     organization = "Deebudapest"
+    organization = "Deebudapest"
 
     workspaces {
       name = "github-action-workspace"
