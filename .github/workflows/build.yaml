@@ -62,6 +62,7 @@ jobs:
     defaults:
       run:
         shell: bash
+        working-directory: 
 
     steps:
     # Checkout the repository to the GitHub Actions runner
@@ -93,7 +94,7 @@ jobs:
       if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
     
-    # terraform destroy -auto-approve -input=false
-    - name: Terraform Destroy
-      if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
-      run: terraform destroy -auto-approve -input=false
+    # # terraform destroy -auto-approve -input=false
+    # - name: Terraform Destroy
+    #   if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
+    #   run: terraform destroy -auto-approve -input=false
