@@ -1,13 +1,13 @@
-locals {
-  environment_name = "alt-school"
-  tags = {
-    ops_env              = "${local.environment_name}"
-    ops_managed_by       = "github-actions",
-    ops_source_repo      = "kubernetes-ops",
-    ops_source_repo_path = "terraform-environments/aws/${local.environment_name}/10-vpc",
-    ops_owners           = "devops",
-  }
-}
+# locals {
+#   environment_name = "alt-school"
+#   tags = {
+#     ops_env              = "${local.environment_name}"
+#     ops_managed_by       = "github-actions",
+#     ops_source_repo      = "kubernetes-ops",
+#     ops_source_repo_path = "terraform-environments/aws/${local.environment_name}/10-vpc",
+#     ops_owners           = "devops",
+#   }
+# }
 
 terraform {
   required_providers {
