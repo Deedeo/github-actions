@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-deployment
+  namespace: web-app
+  labels:
+    app: node-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: node-app
+  template:
+    metadata:
+      name: node-app
+      labels:
+        app: node-app
+    spec:
+      containers:
+        - name: node-container
+          image: deedeo/backend:latest
+          ports:
+            - containerPort: 3000
