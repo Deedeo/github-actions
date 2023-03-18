@@ -62,7 +62,7 @@ jobs:
     #   run: terraform destroy -auto-approve -input=false
   
   # This step is to deploy the application to the EKS cluster
-jobs:
+
   deploy:
     name: 
     runs-on: ubuntu-latest
