@@ -26,7 +26,7 @@ terraform {
     organization = "Deebudapest"
 
     workspaces {
-      name = "github-action-workspace"
+      name = "github-action-eks-workspace"
     }
   }
 }
@@ -46,7 +46,7 @@ data "terraform_remote_state" "vpc" {
     # Update to your Terraform Cloud organization
     organization = "Deebudapest"
     workspaces = {
-      name = "github-action-eks-workspace"
+      name = "github-action-workspace"
     }
   }
 }
