@@ -52,7 +52,7 @@ data "terraform_remote_state" "vpc" {
 # EKS cluster configuration 
  module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = var.eks_module_version
+  version = "19.5.1"
 
   cluster_name    = local.environment_name
   cluster_version = var.cluster_version
@@ -62,7 +62,7 @@ data "terraform_remote_state" "vpc" {
   cluster_endpoint_public_access = true
 
   eks_managed_node_group_defaults = {
-    ami_type = var.ami_type
+    ami_type = "AL2_x86_64"
 
   }
 
