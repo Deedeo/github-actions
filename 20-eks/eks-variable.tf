@@ -25,11 +25,8 @@ variable "ami_type" {
   default     = "AL2_x86_64"
   description = "The AMI type to use for the node group"
 }
-variable "eks_module_version" {
-  type        = string
-  default     = "19.5.1"
-  description = "The EKS module version to use" 
-}
+ 
+
 variable "cluster_version" {
   type        = string
   default     = "1.24"

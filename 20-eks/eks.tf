@@ -21,7 +21,7 @@ terraform {
       source = "hashicorp/random"
     }
   }
-   backend "remote" {
+  backend "remote" {
     # Update to your Terraform Cloud organization
     organization = "Deebudapest"
 
@@ -50,7 +50,7 @@ data "terraform_remote_state" "vpc" {
 }
 
 # EKS cluster configuration 
- module "eks" {
+module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "19.5.1"
 
@@ -66,9 +66,9 @@ data "terraform_remote_state" "vpc" {
 
   }
 
-eks_managed_node_groups = {
+  eks_managed_node_groups = {
     one = {
-      name        = "node-group-1"
+      name = "node-group-1"
 
       instance_types = ["t3.medium"]
 
@@ -76,5 +76,5 @@ eks_managed_node_groups = {
       max_size     = 6
       desired_size = 3
     }
-}
+  }
 }
