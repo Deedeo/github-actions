@@ -1,40 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+  namespace: kube-logging
+  labels:
+    app: kibana
+spec:
+  ports:
+  - port: 5601
+  selector:
+    app: kibana
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kibana
+  namespace: kube-logging
   labels:
-    name: kibana
-  namespace: kube-system
+    app: kibana
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: kibana
+      app: kibana
   template:
     metadata:
       labels:
-        name: kibana
+        app: kibana
     spec:
       containers:
-       - image: kibana
-         name: kibana
-         ports:
-          - name: kibana
-            containerPort: 5601
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: kibana
-  labels:
-    name: kibana
-  namespace: kube-system
-spec:
-  type: LoadBalancer
-  ports:
-  - port: 5601
-    targetPort: 5601
-    nodePort: 31601
-  selector:
-    name: kibana
+      - name: kibana
+        image: docker.elastic.co/kibana/kibana:7.2.0
+        resources:
+          limits:
+            cpu: 1000m
+          requests:
+            cpu: 100m
+        env:
+          - name: ELASTICSEARCH_URL
+            value: http://elasticsearch:9200
+        ports:
+        - containerPort: 5601
