@@ -55,10 +55,10 @@ module "eks" {
   version = "19.5.1"
 
   cluster_name    = local.environment_name
-  cluster_version = var.cluster_version
+  cluster_version = "1.24"
 
-  vpc_id                         = data.terraform_remote_state.vpc.vpc_id
-  subnet_ids                     = data.terraform_remote_state.vpc.public_subnets
+  vpc_id                         = data.terraform_remote_state.vpc.outputs.vpc_id
+  subnet_ids                     = data.terraform_remote_state.vpc.outputs.public_subnets
   cluster_endpoint_public_access = true
 
   eks_managed_node_group_defaults = {
@@ -66,9 +66,9 @@ module "eks" {
 
   }
 
-  eks_managed_node_groups = {
+eks_managed_node_groups = {
     one = {
-      name = "node-group-1"
+      name        = "node-group-1"
 
       instance_types = ["t3.medium"]
 
@@ -76,5 +76,5 @@ module "eks" {
       max_size     = 6
       desired_size = 3
     }
-  }
+}
 }
