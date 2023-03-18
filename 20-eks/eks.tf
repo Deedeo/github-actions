@@ -1,80 +1,80 @@
-# # Description: EKS cluster configuration
-# locals {
-#   environment_name = "alt-school"
-#   tags = {
-#     ops_env              = "${local.environment_name}"
-#     ops_managed_by       = "github-actions",
-#     ops_source_repo      = "kubernetes-ops",
-#     ops_source_repo_path = "terraform-environments/aws/${local.environment_name}/20-eks",
-#     ops_owners           = "devops",
-#   }
-# }
+# Description: EKS cluster configuration
+locals {
+  environment_name = "alt-school"
+  tags = {
+    ops_env              = "${local.environment_name}"
+    ops_managed_by       = "github-actions",
+    ops_source_repo      = "kubernetes-ops",
+    ops_source_repo_path = "terraform-environments/aws/${local.environment_name}/20-eks",
+    ops_owners           = "devops",
+  }
+}
 
-# # Configure the AWS Provider to use the region specified in the environment
-# terraform {
-#   required_providers {
-#     aws = {
-#       source  = "hashicorp/aws"
-#       version = ">= 3.37.0"
-#     }
-#     random = {
-#       source = "hashicorp/random"
-#     }
-#   }
-#    backend "remote" {
-#     # Update to your Terraform Cloud organization
-#     organization = "Deebudapest"
+# Configure the AWS Provider to use the region specified in the environment
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 3.37.0"
+    }
+    random = {
+      source = "hashicorp/random"
+    }
+  }
+   backend "remote" {
+    # Update to your Terraform Cloud organization
+    organization = "Deebudapest"
 
-#     workspaces {
-#       name = "github-action-workspace"
-#     }
-#   }
-# }
+    workspaces {
+      name = "github-action-workspace"
+    }
+  }
+}
 
-# # Configure the AWS Provider to use the region specified in the environment
-# provider "aws" {
-#   region = var.aws_region
-# }
+# Configure the AWS Provider to use the region specified in the environment
+provider "aws" {
+  region = var.aws_region
+}
 
 
-# # Data sources for remote state data  (VPC) 
-# data "terraform_remote_state" "vpc" {
-#   backend = "remote"
-#   config = {
-#     # Update to your Terraform Cloud organization
-#     organization = "Deebudapest"
-#     workspaces = {
-#       name = "github-action-workspace"
-#     }
-#   }
-# }
+# Data sources for remote state data  (VPC) 
+data "terraform_remote_state" "vpc" {
+  backend = "remote"
+  config = {
+    # Update to your Terraform Cloud organization
+    organization = "Deebudapest"
+    workspaces = {
+      name = "github-action-workspace"
+    }
+  }
+}
 
-# # EKS cluster configuration 
-#  module "eks" {
-#   source  = "terraform-aws-modules/eks/aws"
-#   version = var.eks_module_version
+# EKS cluster configuration 
+ module "eks" {
+  source  = "terraform-aws-modules/eks/aws"
+  version = var.eks_module_version
 
-#   cluster_name    = local.environment_name
-#   cluster_version = var.cluster_version
+  cluster_name    = local.environment_name
+  cluster_version = var.cluster_version
 
-#   vpc_id                         = data.terraform_remote_state.vpc.vpc_id
-#   subnet_ids                     = data.terraform_remote_state.vpc.public_subnets
-#   cluster_endpoint_public_access = true
+  vpc_id                         = data.terraform_remote_state.vpc.vpc_id
+  subnet_ids                     = data.terraform_remote_state.vpc.public_subnets
+  cluster_endpoint_public_access = true
 
-#   eks_managed_node_group_defaults = {
-#     ami_type = var.ami_type
+  eks_managed_node_group_defaults = {
+    ami_type = var.ami_type
 
-#   }
+  }
 
-# eks_managed_node_groups = {
-#     one = {
-#       name        = "node-group-1"
+eks_managed_node_groups = {
+    one = {
+      name        = "node-group-1"
 
-#       instance_types = ["t3.medium"]
+      instance_types = ["t3.medium"]
 
-#       min_size     = 1
-#       max_size     = 6
-#       desired_size = 3
-#     }
-# }
-# }
+      min_size     = 1
+      max_size     = 6
+      desired_size = 3
+    }
+}
+}
