@@ -100,3 +100,57 @@ jobs:
     # - name: Terraform Destroy
     #   if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
     #   run: terraform destroy -auto-approve -input=false
+  
+  # This step is to deploy the application to the EKS cluster
+  deploy:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./kubernetes
+
+
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+#   This step is to install the kubectl cli
+    - name: Install kubectl
+      uses: azure/setup-kubectl@v3.0
+      with:
+        version: 'v1.25.0' # default is latest stable
+        install-metrics-apiserver: true      
+
+#   This step is to configure the AWS credentials with the secrets
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+#   This step is to update the kubeconfig file with the cluster details
+    - name: Update kube config
+      run: aws eks update-kubeconfig --name alt-school --region us-east-1
+    
+    - name: Deploy application to EKS cluster
+      run: |
+        kubectl apply -f manifests 
+
+    - name: Deploy to EKS
+      run: |
+        kubectl apply -f manifests-logging
+    
+    - name: Deploy to monitoring to EKS cluster
+      run: |
+        kubectl apply -f manifests-monitoring
+    
+    - name: Deploy policy to EKS cluster
+       kubectl apply -f manifests-policy
+
+    - name: Deploy alerting to EKS cluster 
+      run: |
+        kubectl apply -f ./kubernetes/manifests-alerting
+        

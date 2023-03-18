@@ -72,7 +72,7 @@ eks_managed_node_groups = {
     one = {
       name        = "node-group-1"
 
-      instance_types = ["t3.medium"]
+      instance_types = ["t4g.2xlarge"]
 
       min_size     = 1
       max_size     = 6
