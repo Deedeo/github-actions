@@ -38,6 +38,8 @@ provider "aws" {
 
 
 # Data sources for remote state data  (VPC) 
+
+
 data "terraform_remote_state" "vpc" {
   backend = "remote"
   config = {
