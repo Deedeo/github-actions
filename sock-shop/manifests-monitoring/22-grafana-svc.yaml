@@ -12,7 +12,7 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 3000
-    nodePort: 31300
+    nodePort: 31301
   selector:
     app: grafana
     component: core

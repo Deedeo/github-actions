@@ -66,7 +66,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./kubernetes
+        working-directory: ./sock-shop
 
 
     steps:
@@ -92,7 +92,7 @@ jobs:
     - name: Update kube config
       run: aws eks update-kubeconfig --name alt-school --region us-east-1
       
-    - name: Deploy application to EKS cluster
+    - name: Deploy sock-shop application to EKS cluster
       run: |
         kubectl apply -f manifests 
    
@@ -103,17 +103,12 @@ jobs:
     - name: Deploy to monitoring to EKS cluster
       run: |
         kubectl apply -f manifests-alerting
+     
     
-    # - name: Set up CRD
-    #   run: kubectl apply -f https://raw.githubusercontent.com/fluent/fluentd-kubernetes-daemonset/master/fluentd-daemonset-elasticsearch-rbac.yaml  
-    
-    - name: Deploy to EKS
+    - name: Deploy logging manifests to the EKS cluster
       run: |
         kubectl apply -f manifests-logging
       
-    - name: Deploy policy to EKS cluster
-      run: |
-        kubectl apply -f manifests-policy
 
   simplewebapp:
     name: 
@@ -149,4 +144,4 @@ jobs:
 
     - name: Deploy  simplewebapp to EKS cluster
       run: |
-        kubectl apply -f simplewebapp 
+        kubectl apply -f podinfoapp  
